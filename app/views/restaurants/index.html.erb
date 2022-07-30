@@ -1,17 +1,16 @@
-<div class="container" style="margin-top: 50px;">
+<div class="container" style="margin-top: 50px;" data-controller="search">
   <%= form_tag restaurants_path, method: :get do %>
     <%= text_field_tag :query,
       params[:query],
       class: "form-control",
-      placeholder: "Search something here...."
+      placeholder: "Search something here....",
+      data: { action: "keyup->search#updateSearch" }
       %>
       <%= submit_tag "Search!!", class: "btn btn-primary" %>
   <% end %>
   <h1>Restaurants</h1>
 
-  <ul>
-    <% @restaurants.each do |restaurant| %>
-      <li><%= link_to restaurant.name, restaurant_path(restaurant) %></li>
-    <% end %>
-  </ul>
+  <div id="restaurants">
+    <%= render 'list', restaurants: @restaurants %>
+  </div>
 </div>

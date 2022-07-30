@@ -1,10 +1,17 @@
 class RestaurantsController < ApplicationController
   def index
-    @restaurants = Restaurant.all
+    if params[:query]
+      @restaurants = Restaurant.where("name ILIKE ?", "%#{params[:query]}%")
+    else
+      @restaurants = Restaurant.all
+    end
   end
 
-  def show
-    @restaurant = Restaurant.find(params[:id])
-    @review = Review.new  # <-- You need this now.
+
+  def update_search
+    @restaurants = Restaurant.where("name ILIKE ?", "%#{params[:query]}%")
+    respond_to do |format|  
+      format.json
+    end
   end
 end
